@@ -2,7 +2,7 @@
 
 const electron = require('electron');
 // Manages reading and writing of .par files and other data
-var file_manager = require('./file_manager');
+var file_manager = require('./js/file_manager');
 // Module to control application life.
 const app = electron.app;
 // Module to create native browser window.
@@ -16,15 +16,21 @@ var ROOT_DIR = '/Users/Christopher/Desktop/Flash_Center/FLASH4.3/';
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
+var getDummyDirectories = function () {
+    return ['One', 'Two', 'Three', 'Four'];
+};
+
+process.getDummies = getDummyDirectories;
+
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 925, height: 675});
 
-  file_manager.readParData(ROOT_DIR + 'ccsn2d/flash.par', function(parResult) {
+  /* file_manager.readParData(ROOT_DIR + 'ccsn2d/flash.par', function(parResult) {
       file_manager.writeParData(parResult.parData, parResult.writeOrder, ROOT_DIR + 'ccsn2d/flash_test.par', function() {
           console.log('Data written sucessfully!');
       });
-  });
+  }); */
 
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + __dirname + '/index.html');

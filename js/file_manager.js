@@ -2,8 +2,8 @@
 
 const fs = require('fs');
 
+// Pads a string with delimeters until it's length is maxPaddingLength
 var addPadding = function(string, delimeter, maxPaddingLength) {
-    // Pads a string with delimeters until it's length is maxPaddingLength
     if (maxPaddingLength - string.length > 0)
     {
         return string + Array(maxPaddingLength - string.length).join(delimeter);
@@ -51,7 +51,7 @@ var readParData = function(filepath, callback) {
     });
 };
 
-
+// Writes a .par file according to the given parData and writeOrder
 var writeParData = function(parData, writeOrder, filepath, callback) {
     var body = '';
 
