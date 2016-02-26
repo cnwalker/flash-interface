@@ -26,11 +26,11 @@ function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 925, height: 675});
 
-  /* file_manager.readParData(ROOT_DIR + 'ccsn2d/flash.par', function(parResult) {
+   file_manager.readParData(ROOT_DIR + 'ccsn2d/flash.par', function(parResult) {
       file_manager.writeParData(parResult.parData, parResult.writeOrder, ROOT_DIR + 'ccsn2d/flash_test.par', function() {
           console.log('Data written sucessfully!');
       });
-  }); */
+  }); 
 
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + __dirname + '/index.html');
