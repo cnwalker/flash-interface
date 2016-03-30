@@ -28,12 +28,12 @@ $(function(){
         par_form.append($("<input type='submit' value='write to .par file'/>"));
 
         par_form.submit(function(event){
-            console.log('Submit was pressed!')
+            console.log('Submit was pressed!');
             $("#par_form :input").each(function() {
                 if (this.name.toString() in par_obj.parData)
                 {
-                    par_obj.parData[this.name.toString().trim()] = this.value;
-                    //console.log(par_obj.parData[this.name.toString()]);
+                    console.log('Found parData');
+                    par_obj.parData[this.name.toString().trim()].value = this.value;
                 }
             });
             console.log(par_obj.parData);

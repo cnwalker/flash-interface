@@ -5,10 +5,12 @@
     <title>Flash Interface</title>
   </head>
   <body>
-    <h1>Hello World!</h1>
-    We are using node <script>document.write(process.versions.node)</script>,
-    Chrome <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
+    <div class="display_zone">
+        <!-- <p>Parameters to edit:</p> -->
+        <form id="config_form">
+
+        </form>
+    </div>
 
     <script>window.$ = window.jQuery = require('./js/jquery.min.js');</script>
     <script src="./js/config_manager.js"></script>

@@ -26,14 +26,25 @@ function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 925, height: 675});
 
-   file_manager.readParData(ROOT_DIR + 'ccsn2d/flash.par', function(parResult) {
+  /* file_manager.readParData(ROOT_DIR + 'ccsn2d/flash.par', function(parResult) {
       file_manager.writeParData(parResult.parData, parResult.writeOrder, ROOT_DIR + 'ccsn2d/flash_test.par', function() {
           console.log('Data written sucessfully!');
       });
-  }); 
+
+      file_manager.getConfigData(ROOT_DIR + '/source/IO/IOMain/Config', function(configResult) {
+          console.log('getConfigData ran!');
+      });
+
+     */
+
+      file_manager.collectSetupParams(ROOT_DIR + '/object/setup_params', function(setupResult) {
+          console.log('collectSetupParams ran!');
+          console.log(setupResult['physics']);
+      });
+  //});
 
   // and load the index.html of the app.
-  mainWindow.loadURL('file://' + __dirname + '/index.html');
+  mainWindow.loadURL('file://' + __dirname + '/edit_config.html');
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
