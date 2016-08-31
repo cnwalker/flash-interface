@@ -50,10 +50,8 @@ $(function(){
 
         // Get parData to determine which params are advanced and which aren't
         file_manager.readParData(SIM_PATH + 'flash.par', function(parData) {
-            console.log(parData.writeOrder);
             subject_zone.append($('<a id="All_button" href="#"><h3>' + 'All' + '</h3></a>'));
             $('#All_button').click(function() {
-                console.log('All button called!')
                 restrictToSubject(setupParams, 'All');
             });
             Object.keys(setupParams).forEach(function(subject) {
@@ -100,17 +98,13 @@ $(function(){
             write_button = $("<input type='submit' value='Write parameters'/>");
             write_button.click(function(event){
                 // In order to update all of the values in setupParams in O(n), select values using their ids
-                console.log('Submit was pressed!');
                 Object.keys(setupParams).forEach(function(subject) {
                     Object.keys(setupParams[subject]).forEach(function(directory) {
                         Object.keys(setupParams[subject][directory]).forEach(function(variable) {
                             setupParams[subject][directory][variable] = $('#' + (subject + directory + variable).replace(/\//g, '')).val();
-                            console.log('#' + (subject + directory + variable).replace(/\//g, ''));
                         });
                     });
                 });
-                console.log(setupParams);
-                console.log(setupParams['physics']);
             });
 
             // Hide/Show advanced parameters button
@@ -125,9 +119,9 @@ $(function(){
                                 if (advanced_button.val() === "Show advanced parameters"){
                                     cur_element.removeClass('advanced_inactive');
                                     curLabel.removeClass('advanced_inactive');
-                                    advanced_button.val("Hide advanced parameters");
+                                    advanced_button.val('Hide advanced parameters');
                                 } else {
-                                    advanced_button.val("Show advanced parameters");
+                                    advanced_button.val('Show advanced parameters');
                                     cur_element.addClass('advanced_inactive');
                                     curLabel.addClass('advanced_inactive');
                                 }
@@ -138,7 +132,6 @@ $(function(){
             });
 
             subject_zone.append(advanced_button);
-            subject_zone.append($('<br> <br>'));
             subject_zone.append(write_button);
 
         });

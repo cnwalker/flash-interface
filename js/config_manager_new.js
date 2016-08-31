@@ -155,9 +155,12 @@ $(function(){
                     Object.keys(setupParams[subject]).forEach(function(directory) {
                         Object.keys(setupParams[subject][directory]).forEach(function(variable) {
                             cur_element = $('#' + (subject + directory + variable).replace(/\//g, ''));
+
                             curLabel = $('#' + (subject + directory + variable + '_label').replace(/\//g, ''));
+
                             if (cur_element.hasClass('advanced_param')) {
-                                if (advanced_button.val() === "Show advanced parameters"){
+
+                                if (advanced_button.val() === "Show advanced parameters") {
                                     cur_element.removeClass('advanced_inactive');
                                     if (!cur_element.hasClass('inactive')) {
                                         cur_element.attr('style', '');
@@ -177,11 +180,10 @@ $(function(){
                     });
                 });
             });
-            
+
             action_zone.append(advanced_button);
             action_zone.append($('<br> <br>'));
             action_zone.append(write_button);
-
         });
     });
 });
