@@ -1,0 +1,19 @@
+.subject_zone {
+    min-width: 30%;
+}
+
+.inactive {
+    display: none;
+}
+
+.advanced_inactive {
+    display: none;
+}
+
+.parameter .popup {
+    display: none;
+}
+
+.parameter:hover .popup {
+    display: block;
+}

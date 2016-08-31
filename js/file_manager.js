@@ -152,7 +152,7 @@ var collectSetupParams = function(filepath, callback) {
                         setupParams[curSubject][curDir][curVar].valid_range = line.split(':')[1];
                     } else {
                         // valid_range will be set to undefined by default if not added to object
-                        setupParams[curSubject][curDir][curVar].description += line.trim();
+                        setupParams[curSubject][curDir][curVar].description += ' ' + line.trim();
                     }
                     break;
                 default:
