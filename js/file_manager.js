@@ -12,7 +12,7 @@ var addPadding = function(string, delimeter, maxPaddingLength) {
 };
 
 // returns true if the input is an empty string. Used to filter out empty strings with the array filter function
-var is_not_empty_string = function(string) {
+var isNotEmptyString = function(string) {
     if(string === '')
     {
         return false;
@@ -26,11 +26,12 @@ var readParData = function(filepath, callback) {
     var writeOrder = [];
 
     fs.readFile(filepath, function (err, data) {
+        var lineList, currentParameter, valAndComment;
+
         if (err) {
             return console.error(err);
         }
 
-        var lineList, currentParameter, valAndComment;
         data.toString().split('\n').forEach(function(line) {
             // If it's not a comment or a space, it's a parameter and needs to be processed
             if (line[0] !== '#' && line.trim()) {
@@ -86,23 +87,24 @@ var getConfigData = function(filepath, callback) {
     var configData = {};
 
     fs.readFile(filepath, function (err, data) {
+        // Convert to regexp later perhaps
+        var curline, i;
+
         if (err) {
             return console.error(err);
         }
 
-        // Convert to regexp later perhaps
-        var curline, i;
         data.toString().split('\n').forEach(function(line) {
             // Remove tab characters
-            curline = line.replace(new RegExp('\t', 'g'), ' ').split(' ').filter(is_not_empty_string);
+            curline = line.replace(new RegExp('\t', 'g'), ' ').split(' ').filter(isNotEmptyString);
             if (curline[0] === 'PARAMETER') {
                 configData[curline[1]] = {
-                                            'value': curline[curline.length - 1],
-                                            'type': curline[2],
-                                            'type_flags': []
-                                         };
-                for(i = 3; i < curline.length - 1; i++)
-                {
+                    'value': curline[curline.length - 1],
+                    'type': curline[2],
+                    'type_flags': []
+                };
+
+                for (i = 3; i < curline.length - 1; i++) {
                     configData[curline[1]].type_flags.push(curline[i]);
                 }
             }
@@ -122,7 +124,7 @@ var collectSetupParams = function(filepath, callback) {
             //Directories don't have preceeding tab marks
             switch(line.search(/\S/)) {
                 case 0:
-                    // No preceeding whitespace, so is a directory
+                    // No preceeding whitespace, so line is a directory
                     lineList = line.split('/');
                     if (!setupParams[lineList[0]]) {
                         setupParams[lineList[0]] = {};
@@ -132,7 +134,7 @@ var collectSetupParams = function(filepath, callback) {
                     setupParams[curSubject][curDir] = {};
                     break;
                 case 4:
-                    // One preceeding tab, so it is a variable
+                    // One preceeding tab, so line is a variable
                     lineList = line.replace(/\[/g, '').replace(/\]/g, '').trim().split(' ');
                     curVar = lineList[0];
                     setupParams[curSubject][curDir][curVar] = {
@@ -147,7 +149,7 @@ var collectSetupParams = function(filepath, callback) {
                     }
                     break;
                 case 8:
-                    // Two preceeding tabs, so it is a paragraph
+                    // Two preceeding tabs, so line is a paragraph
                     if (line.indexOf('Valid Values') > -1) {
                         setupParams[curSubject][curDir][curVar].valid_range = line.split(':')[1];
                     } else {
