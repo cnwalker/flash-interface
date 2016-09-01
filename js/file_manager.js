@@ -82,37 +82,6 @@ var writeParData = function(parData, writeOrder, filepath, callback) {
     callback();
 };
 
-var getConfigData = function(filepath, callback) {
-    // Collects the data in one Config file
-    var configData = {};
-
-    fs.readFile(filepath, function (err, data) {
-        // Convert to regexp later perhaps
-        var curline, i;
-
-        if (err) {
-            return console.error(err);
-        }
-
-        data.toString().split('\n').forEach(function(line) {
-            // Remove tab characters
-            curline = line.replace(new RegExp('\t', 'g'), ' ').split(' ').filter(isNotEmptyString);
-            if (curline[0] === 'PARAMETER') {
-                configData[curline[1]] = {
-                    'value': curline[curline.length - 1],
-                    'type': curline[2],
-                    'type_flags': []
-                };
-
-                for (i = 3; i < curline.length - 1; i++) {
-                    configData[curline[1]].type_flags.push(curline[i]);
-                }
-            }
-        });
-        callback(configData);
-    });
-};
-
 var collectSetupParams = function(filepath, callback) {
     // Collects the data in the setup_params file
     var setupParams = {};
