@@ -16,32 +16,9 @@ var ROOT_DIR = '/Users/Christopher/Desktop/Flash_Center/FLASH4.3/';
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
-var getDummyDirectories = function () {
-    return ['One', 'Two', 'Three', 'Four'];
-};
-
-process.getDummies = getDummyDirectories;
-
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 1125, height: 8375});
-
-  /* file_manager.readParData(ROOT_DIR + 'ccsn2d/flash.par', function(parResult) {
-      file_manager.writeParData(parResult.parData, parResult.writeOrder, ROOT_DIR + 'ccsn2d/flash_test.par', function() {
-          console.log('Data written sucessfully!');
-      });
-
-      file_manager.getConfigData(ROOT_DIR + '/source/IO/IOMain/Config', function(configResult) {
-          console.log('getConfigData ran!');
-      });
-
-
-      file_manager.collectSetupParams(ROOT_DIR + '/object/setup_params', function(setupResult) {
-          console.log('collectSetupParams ran!');
-          console.log(setupResult['physics']);
-      });
-  //});
-   */
 
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + __dirname + '/edit_config.html');

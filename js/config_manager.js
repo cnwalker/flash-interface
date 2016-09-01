@@ -117,7 +117,7 @@ $(function() {
             });
             // Write parameters button
             write_button = $('<input class="button expand" type="submit" value="Write parameters"/>');
-            write_button.click(function(event){
+            write_button.click(function(event) {
                 var curSetupVal;
                 var checkVal;
 
@@ -149,7 +149,7 @@ $(function() {
 
             // Hide/Show advanced parameters button
             advanced_button = $('<input class="button expand" type="submit" value="Show advanced parameters"/>');
-            advanced_button.click(function(event){
+            advanced_button.click(function(event) {
                 Object.keys(setupParams).forEach(function(subject) {
                     Object.keys(setupParams[subject]).forEach(function(directory) {
                         Object.keys(setupParams[subject][directory]).forEach(function(variable) {
