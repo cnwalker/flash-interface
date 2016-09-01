@@ -137,6 +137,5 @@ var collectSetupParams = function(filepath, callback) {
 module.exports = {
     readParData: readParData,
     writeParData: writeParData,
-    getConfigData: getConfigData,
     collectSetupParams: collectSetupParams
 };
