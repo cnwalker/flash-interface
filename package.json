@@ -11,12 +11,14 @@
     "url": "git+https://github.com/cnwalker/flash_interface.git"
   },
   "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial"
+    "FLASH",
+    "physics",
+    "computational",
+    "science",
+    "simulations",
+    "parameters"
   ],
-  "author": "GitHub",
+  "author": "Christopher Walker",
   "license": "CC0-1.0",
   "bugs": {
     "url": "https://github.com/cnwalker/flash_interface/issues"
