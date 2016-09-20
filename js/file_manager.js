@@ -6,7 +6,7 @@ const fs = require('fs');
 var addPadding = function(string, delimeter, maxPaddingLength) {
     if (maxPaddingLength - string.length > 0)
     {
-        return string + Array(maxPaddingLength - string.length).join(delimeter);
+        string += Array(maxPaddingLength - string.length).join(delimeter);
     }
     return string;
 };
@@ -20,12 +20,39 @@ var isNotEmptyString = function(string) {
     return true;
 };
 
+var gatherPathFiles = function(filepath, callback) {
+    fs.readFile(filepath, function(err, data) {
+        var paths = JSON.parse(data),
+            missingPaths = true;
+
+        if (paths.WRITE_PATH.trim() && paths.READ_PATH.trim() && paths.SETUP_PATH.trim()) {
+            missingPaths = false;
+        }
+
+        callback({
+            data: paths,
+            pathsAreMissing: missingPaths,
+        });
+    });
+};
+
+var writePathFiles = function(filepath, data, callback) {
+    fs.writeFile(filepath, JSON.stringify(data, null, 4), function(err) {
+        if (!err) {
+            console.log('Wrote data to ' + filepath);
+        } else {
+            console.log(err);
+            alert('Problem writing paths to config file. Consult the log for errors');
+        }
+    });
+};
+
 // Reads in .par file and returns parData dictionary
 var readParData = function(filepath, callback) {
     var parData = {};
     var writeOrder = [];
 
-    fs.readFile(filepath, function (err, data) {
+    fs.readFile(filepath, function(err, data) {
         var lineList, currentParameter, valAndComment;
 
         if (err) {
@@ -137,5 +164,7 @@ var collectSetupParams = function(filepath, callback) {
 module.exports = {
     readParData: readParData,
     writeParData: writeParData,
+    gatherPathFiles: gatherPathFiles,
+    writePathFiles: writePathFiles,
     collectSetupParams: collectSetupParams
 };

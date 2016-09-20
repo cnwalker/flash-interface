@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en">
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FLASH Interface - Settings</title>
+
+    <link rel="stylesheet" href="foundation_framework/css/normalize.css">
+    <link rel="stylesheet" href="foundation_framework/css/foundation.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
+    <script src="foundation_framework/js/vendor/modernizr.js"></script>
+    </head>
+
+    <body>
+        <div class="sticky">
+            <nav class="top-bar" data-topbar>
+                <ul class="title-area">
+                    <li class="name">
+                        <h1><a href="#">FLASH Interface</a></h1>
+                    </li>
+                    <li class="divider"></li>
+                    <li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
+                </ul>
+            <section class="top-bar-section">
+            <ul id="subject_zone" class="right">
+                <li class="divider"></li>
+                <li><a href="./edit_config.html">Edit FLASH Parameters</a></li>
+            </ul>
+            </nav>
+        </div>
+
+        <div class="row large-collapse ">
+            <div class="small-2 large-2 columns">
+                <h1>Settings</h1>
+            </div>
+
+            <div class="small-12 large-12 columns">
+                <p class="subheader">
+                    You can either enter the path for the files directly or use
+                    your operating system's file selector. The paths that will be
+                    saved are the paths displayed in the text fields.
+                </p>
+
+                <p class="subheader">
+                    All comments are preserved when reading and writing parameter files
+                    from flash_interface.
+                </p>
+            </div>
+            <hr>
+        </div>
+
+        <div class="row">
+            <div class="display_zone small-8 large-8 columns">
+                <div id="settings_form">
+                    <div class="row">
+                        <h3 id="read_path_label">Parameter File</h3>
+                        <p class="subheader">The flash.par file you would like to read from.</p>
+                        <input id="read_path_file" type="file"> </input>
+                        <input id="read_path_text" type="text"> </input>
+                    </div>
+
+                    <div class="row">
+                        <h3 id="write_path_label" class="l-mar-top">Write File</h3>
+                        <p class="subheader">The flash.par file you would like to write to. Usually the same as the read file.</p>
+                        <input id="write_path_file" type="file"> </input>
+                        <input id="write_path_text" type="text"> </input>
+                    </div>
+
+                    <div class="row">
+                        <h3 id="setup_path_label" class="l-mar-top">Setup File</h3>
+                        <p class="subheader">The setup file to get your default variable configurations. Usually called setup_params in the object directory.</p>
+                        <input id="setup_path_file" type="file"> </input>
+                        <input id="setup_path_text" type="text"> </input>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row large-collapse">
+            <div class="large-5 large-offset-4 columns">
+                <div id="save_settings" class="button radius l-mar-top l-mar-right-small">Save Settings</div>
+                <a id="edit_params" href="./edit_config.html" class="button radius l-mar-top">Edit FLASH Parameters</a>
+            </div>
+        </div>
+
+        <script>window.$ = window.jQuery = require('./foundation_framework/js/vendor/jquery.js');</script>
+        <script src="foundation_framework/js/vendor/jquery.js"></script>
+        <script src="foundation_framework/js/foundation.min.js"></script>
+        <script src="./js/settings_manager.js"> </script>
+        <script>
+              $(document).foundation();
+        </script>
+    </body>
+</html>

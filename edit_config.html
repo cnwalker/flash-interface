@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>FLASH Interface</title>
+    <title>FLASH Interface - Edit Params</title>
 
     <link rel="stylesheet" href="foundation_framework/css/normalize.css">
     <link rel="stylesheet" href="foundation_framework/css/foundation.min.css">
@@ -26,17 +26,20 @@
             <section class="top-bar-section">
             <ul id="subject_zone" class="right">
                 <li class="divider"></li>
+            </ul>
             </nav>
-        </div>
 
-        <div id="action_zone" class="panel small-5 small-left large-6 right columns radius">
-            <h3 id="active_variable_name">Click on a variable name to view its description </h3>
-            <p id="active_variable_description"></p>
+            <div id="action_zone" class="panel small-5 small-left large-6 right columns radius">
+                <h3 id="active_variable_name">Click on a variable name to view its description </h3>
+                <p id="active_variable_description"></p>
+            </div>
         </div>
 
         <div class="display_zone small-6 large-6 columns">
             <div id="config_form"></div>
         </div>
+
+        <a id="go-to-settings" href="./settings.html"></a>
 
         <script>window.$ = window.jQuery = require('./foundation_framework/js/vendor/jquery.js');</script>
         <script src="foundation_framework/js/vendor/jquery.js"></script>

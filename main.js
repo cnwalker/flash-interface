@@ -20,6 +20,14 @@ function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 1125, height: 8375});
 
+ file_manager.gatherPathFiles(__dirname + '/config.json', function(result) {
+      if (result.pathsAreMissing) {
+          mainWindow.loadURL('file://' + __dirname + '/settings.html');
+      } else {
+          mainWindow.loadURL('file://' + __dirname + '/edit_config.html');
+      }
+  });
+
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + __dirname + '/edit_config.html');
 
