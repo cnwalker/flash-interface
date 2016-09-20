@@ -25,7 +25,7 @@ var gatherPathFiles = function(filepath, callback) {
         var paths = JSON.parse(data),
             missingPaths = true;
 
-        if (paths.WRITE_PATH && paths.FLASH_PATH && paths.PARAMETER_PATH && paths.SETUP_PATH) {
+        if (paths.WRITE_PATH.trim() && paths.READ_PATH.trim() && paths.SETUP_PATH.trim()) {
             missingPaths = false;
         }
 
@@ -37,8 +37,13 @@ var gatherPathFiles = function(filepath, callback) {
 };
 
 var writePathFiles = function(filepath, data, callback) {
-    fs.writeFile(filepath, JSON.stringify(data), function(err) {
-        console.log(err);
+    fs.writeFile(filepath, JSON.stringify(data, null, 4), function(err) {
+        if (!err) {
+            console.log('Wrote data to ' + filepath);
+        } else {
+            console.log(err);
+            alert('Problem writing paths to config file. Consult the log for errors');
+        }
     });
 };
 

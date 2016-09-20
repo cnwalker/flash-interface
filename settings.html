@@ -26,17 +26,33 @@
             <section class="top-bar-section">
             <ul id="subject_zone" class="right">
                 <li class="divider"></li>
+                <li><a href="./edit_config.html">Edit FLASH Parameters</a></li>
+            </ul>
             </nav>
         </div>
 
-        <div class="row">
-            <div class="small-2 large-2 small-centered large-centered columns">
+        <div class="row large-collapse ">
+            <div class="small-2 large-2 columns">
                 <h1>Settings</h1>
             </div>
+
+            <div class="small-12 large-12 columns">
+                <p class="subheader">
+                    You can either enter the path for the files directly or use
+                    your operating system's file selector. The paths that will be
+                    saved are the paths displayed in the text fields.
+                </p>
+
+                <p class="subheader">
+                    All comments are preserved when reading and writing parameter files
+                    from flash_interface.
+                </p>
+            </div>
+            <hr>
         </div>
 
         <div class="row">
-            <div class="display_zone small-6 large-6 columns">
+            <div class="display_zone small-8 large-8 columns">
                 <div id="settings_form">
                     <div class="row">
                         <h3 id="read_path_label">Parameter File</h3>
@@ -64,8 +80,8 @@
 
         <div class="row large-collapse">
             <div class="large-5 large-offset-4 columns">
-                <div class="button l-mar-top l-mar-right-small">Save Settings</div>
-                <div class="button l-mar-top">Edit FLASH Parameters</div>
+                <div id="save_settings" class="button radius l-mar-top l-mar-right-small">Save Settings</div>
+                <a id="edit_params" href="./edit_config.html" class="button radius l-mar-top">Edit FLASH Parameters</a>
             </div>
         </div>
 
