@@ -21,3 +21,11 @@
 .parameter:hover .popup {
     display: block;
 }
+
+.l-mar-top {
+    margin-top: 30px;
+}
+
+.l-mar-right-small {
+    margin-right: 9px;
+}

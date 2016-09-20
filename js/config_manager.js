@@ -7,7 +7,6 @@ var READ_PATH = ROOT_DIR + 'object/setup_params';
 var SIM_PATH = ROOT_DIR + 'ccsn2d/';
 var WRITE_DIR = ROOT_DIR + 'ccsn2d/flash2.par';
 
-const fs = require('fs');
 var file_manager = require('./js/file_manager');
 
 $(function() {
@@ -107,8 +106,7 @@ $(function() {
                                 curField.attr('style', 'display: none;');
                                 curLabel.addClass('advanced_inactive');
                             }
-                            //curLabel.addClass('parameter');
-                            //curField.append($('<div class="popup"> ' + setupParams[subject][directory][variable].description + ' </div>'));
+
                             config_form.append(curLabel);
                             config_form.append(curField);
 
