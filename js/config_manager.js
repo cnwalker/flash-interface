@@ -39,13 +39,7 @@ var updateDescription = function(subject, directory, variable, setupParams) {
     active_variable_description.text(setupParams[subject][directory][variable].description || error_msg);
 };
 
-var processSetupParameters = function(subject, directory, variable, setupParams) {
-
-};
-
 var file_manager = require('./js/file_manager');
-
-// Function that is run on page load
 
 $(function() {
     var subject_zone = $('#subject_zone');
@@ -75,6 +69,8 @@ $(function() {
 
                     $('#all_button').click(function() {
                         restrictToSubject(setupParams, 'All');
+                        advanced_button.click();
+                        advanced_button.click();
                     });
 
                     Object.keys(setupParams).forEach(function(subject) {
@@ -83,6 +79,8 @@ $(function() {
                         subject_zone.append('<li class="divider"></li>');
                         $('#' + subject + '_button').click(function() {
                             restrictToSubject(setupParams, subject);
+                            advanced_button.click();
+                            advanced_button.click();
                         });
                         config_form.append($('<h2 id="subject_' + subject + '">' + subject.charAt(0).toUpperCase() + subject.slice(1) + '</h2>'));
                         Object.keys(setupParams[subject]).forEach(function(directory) {
@@ -126,9 +124,8 @@ $(function() {
                     var settings_section = $('<li><a href="./settings.html">Settings</a></li>');
                     subject_zone.append(settings_section);
 
-
                     // Write parameters button
-                    write_button = $('<div class="button expand">Write parameters</div>');
+                    write_button = $('<div class="button radius expand">Write parameters</div>');
                     write_button.click(function(event) {
                         var curSetupVal;
                         var checkVal;
@@ -160,8 +157,10 @@ $(function() {
                     });
 
                     // Hide/Show advanced parameters button
-                    advanced_button = $('<div class="button expand">Show advanced parameters</div>');
+                    advanced_button = $('<div class="button radius expand">Show advanced parameters</div>');
                     advanced_button.click(function(event) {
+                        var nextState = 'show';
+
                         Object.keys(setupParams).forEach(function(subject) {
                             Object.keys(setupParams[subject]).forEach(function(directory) {
                                 Object.keys(setupParams[subject][directory]).forEach(function(variable) {
@@ -170,8 +169,8 @@ $(function() {
                                     curLabel = $('#' + (subject + directory + variable + '_label').replace(/\//g, ''));
 
                                     if (cur_element.hasClass('advanced_param')) {
-
-                                        if (advanced_button.val() === 'Show advanced parameters') {
+                                        if (advanced_button.text() === 'Show advanced parameters') {
+                                            nextState = 'hide';
                                             cur_element.removeClass('advanced_inactive');
                                             if (!cur_element.hasClass('inactive')) {
                                                 cur_element.attr('style', '');
@@ -179,9 +178,8 @@ $(function() {
                                                 cur_element.attr('style', 'display: none;');
                                             }
                                             curLabel.removeClass('advanced_inactive');
-                                            advanced_button.val('Hide advanced parameters');
                                         } else {
-                                            advanced_button.val('Show advanced parameters');
+                                            nextState = 'show';
                                             cur_element.addClass('advanced_inactive');
                                             cur_element.attr('style', 'display: none;');
                                             curLabel.addClass('advanced_inactive');
@@ -190,8 +188,13 @@ $(function() {
                                 });
                             });
                         });
-                    });
 
+                        if (nextState === 'hide') {
+                            advanced_button.text('Hide advanced parameters');
+                        } else {
+                            advanced_button.text('Show advanced parameters');
+                        }
+                    });
                     action_zone.append(advanced_button);
                     action_zone.append(write_button);
                 });
