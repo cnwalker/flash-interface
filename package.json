@@ -1,7 +1,7 @@
 {
-  "name": "flash_interface",
+  "name": "flash-interface",
   "version": "0.0.1",
-  "description": "A Graphical Interface for the FLASH codebase",
+  "description": "A Graphical Interface for the FLASH computational science codebase",
   "main": "main.js",
   "scripts": {
     "start": "electron main.js"
