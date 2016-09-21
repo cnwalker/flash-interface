@@ -17,7 +17,7 @@ $(function() {
         }
     };
 
-    file_manager.gatherPathFiles('./config.json', function(result) {
+    file_manager.gatherPathFiles(__dirname + '/config.json', function(result) {
         var all_keys = Object.keys(result.data),
             curLabel,
             curFileInput,
@@ -41,7 +41,7 @@ $(function() {
                 result.data[all_keys[j]] = $('#' + all_keys[j].toLowerCase() + '_text').val();
             }
             alert('Files written successfully');
-            file_manager.writePathFiles('./config.json', result.data);
+            file_manager.writePathFiles(__dirname + '/config.json', result.data);
         });
     });
 });

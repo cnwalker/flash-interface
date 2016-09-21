@@ -8,10 +8,6 @@ const app = electron.app;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
 
-// Miscellanious Global Variables
-var ROOT_DIR = '/Users/Christopher/Desktop/Flash_Center/FLASH4.3/';
-
-
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;

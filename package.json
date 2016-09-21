@@ -25,6 +25,10 @@
   },
   "homepage": "http://flash.uchicago.edu/site/index.shtml",
   "devDependencies": {
-    "electron-prebuilt": "^0.36.0"
+    "electron-packager": "^8.0.0",
+    "electron-prebuilt": "^1.4.0"
+  },
+  "dependencies": {
+    "electron-prebuilt": "^1.4.0"
   }
 }

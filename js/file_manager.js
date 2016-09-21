@@ -22,17 +22,21 @@ var isNotEmptyString = function(string) {
 
 var gatherPathFiles = function(filepath, callback) {
     fs.readFile(filepath, function(err, data) {
-        var paths = JSON.parse(data),
-            missingPaths = true;
+        if (err) {
+            console.log(err);
+        } else {
+            var paths = JSON.parse(data),
+                missingPaths = true;
 
-        if (paths.WRITE_PATH.trim() && paths.READ_PATH.trim() && paths.SETUP_PATH.trim()) {
-            missingPaths = false;
+            if (paths.WRITE_PATH.trim() && paths.READ_PATH.trim() && paths.SETUP_PATH.trim()) {
+                missingPaths = false;
+            }
+
+            callback({
+                data: paths,
+                pathsAreMissing: missingPaths,
+            });
         }
-
-        callback({
-            data: paths,
-            pathsAreMissing: missingPaths,
-        });
     });
 };
 

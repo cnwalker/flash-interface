@@ -47,7 +47,7 @@ $(function() {
     var config_form = $('#config_form');
     var action_zone = $('#action_zone');
 
-    file_manager.gatherPathFiles('./config.json', function(result) {
+    file_manager.gatherPathFiles(__dirname + '/config.json', function(result) {
         if (result.pathsAreMissing) {
             alert('Some config paths are missing. You must pick which files to read and write from.');
             $('#go-to-settings')[0].click();
