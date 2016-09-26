@@ -97,7 +97,8 @@ var writeParData = function(parData, writeOrder, filepath, callback) {
     var body = '';
 
     writeOrder.forEach(function(line) {
-        if (parData[line]) {
+        if (parData[line] && parData[line].value && parData[line].value.trim() !== 'null') {
+            console.log(parData[line].value);
             body += addPadding(line, ' ', 35) + '=';
             body += parData[line].value + ' ' + (parData[line].comment || '') + '\n';
         } else {

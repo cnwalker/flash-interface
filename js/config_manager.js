@@ -61,6 +61,9 @@ $(function() {
                 var advanced_button;
                 var cur_element;
                 var curRow;
+                var curVal;
+                var trueSelected;
+                var falseSelected;
 
                 // Get parData to determine which params are advanced and which aren't
                 file_manager.readParData(paths.READ_PATH, function(parObj) {
@@ -88,11 +91,22 @@ $(function() {
                             config_form.append($('<h4 id=' + subject + '_' + directory.replace(/\//g, '') + '>' + directory + '</h4>'));
                             Object.keys(setupParams[subject][directory]).forEach(function(variable) {
                                     // Display all the variables
-                                    var cur_val = setupParams[subject][directory][variable].value;
-                                    if (cur_val === 'TRUE' || cur_val === 'FALSE') {
-                                        curField = $('<select><option value="TRUE">TRUE</option><option value="FALSE">FALSE</option></select>');
-                                    } else if (cur_val === 'true' || cur_val === 'false'){
-                                        curField = $('<select> <option value="TRUE">true</option><option value="FALSE">false</option></select>');
+                                    trueSelected = ' ';
+                                    falseSelected = ' ';
+                                    curVal = setupParams[subject][directory][variable].value;
+
+                                    if (curVal.toLowerCase().trim() === 'true') {
+                                        trueSelected = ' selected="selected" ';
+                                    } else {
+                                        falseSelected = ' selected="selected" ';
+                                    }
+
+                                    if (curVal === 'TRUE' || curVal === 'FALSE') {
+                                        curField = $('<select><option' + trueSelected + 'value="TRUE">TRUE</option>' +
+                                        ' <option' + falseSelected + 'value="FALSE">FALSE</option> </select>');
+                                    } else if (curVal === 'true' || curVal === 'false'){
+                                        curField = $('<select> <option' + trueSelected + 'value="true">true</option>' +
+                                        ' <option' + falseSelected + 'value="false">false</option> </select>');
                                     } else {
                                         curField = $('<input id=' + (subject + directory + variable).replace(/\//g, '') + ' type="text"> </input>');
                                     }
@@ -130,7 +144,7 @@ $(function() {
                         var curSetupVal;
                         var checkVal;
 
-                        if (parObj.writeOrder.indexOf('# Advanced Parameters') === -1) {
+                        if (parObj.writeOrder.indexOf('# Advanced Parameters\n') === -1) {
                             parObj.writeOrder.push('# Advanced Parameters\n');
                         }
 
@@ -140,11 +154,10 @@ $(function() {
                                 Object.keys(setupParams[subject][directory]).forEach(function(variable) {
                                     curSetupVal = $('#' + (subject + directory + variable).replace(/\//g, '')).val();
                                     checkVal = setupParams[subject][directory][variable].value.toString();
-                                    if (checkVal === 'true' || checkVal === 'false') {
-                                        checkVal = checkVal.toUpperCase();
-                                    }
                                     if (checkVal !== curSetupVal) {
-                                        parObj.writeOrder.push(variable);
+                                        if (parObj.writeOrder.indexOf(variable) === -1) {
+                                            parObj.writeOrder.push(variable);
+                                        }
                                         parObj.parData[variable] = {'value': curSetupVal};
                                     }
                                 });
