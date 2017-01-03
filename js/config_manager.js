@@ -78,48 +78,66 @@ $(function() {
 
                     Object.keys(setupParams).forEach(function(subject) {
                         // Display all the broad subject-areas
-                        subject_zone.append($('<li><a id=' + subject + '_button ' + 'href="#">' + subject.charAt(0).toUpperCase() + subject.slice(1) + '</a></li>'));
+                        subject_zone.append($('<li><a id=' + subject + '_button '
+                        + 'href="#">' + subject.charAt(0).toUpperCase() +
+                        subject.slice(1) + '</a></li>'));
                         subject_zone.append('<li class="divider"></li>');
                         $('#' + subject + '_button').click(function() {
                             restrictToSubject(setupParams, subject);
                             advanced_button.click();
                             advanced_button.click();
                         });
-                        config_form.append($('<h2 id="subject_' + subject + '">' + subject.charAt(0).toUpperCase() + subject.slice(1) + '</h2>'));
+                        config_form.append($('<h2 id="subject_' + subject + '">' +
+                        subject.charAt(0).toUpperCase() + subject.slice(1) + '</h2>'));
                         Object.keys(setupParams[subject]).forEach(function(directory) {
                             // Display all the directories
-                            config_form.append($('<h4 id=' + subject + '_' + directory.replace(/\//g, '') + '>' + directory + '</h4>'));
+                            config_form.append($('<h4 id=' + subject + '_' +
+                            directory.replace(/\//g, '') + '>' + directory + '</h4>'));
                             Object.keys(setupParams[subject][directory]).forEach(function(variable) {
                                     // Display all the variables
-                                    trueSelected = ' ';
-                                    falseSelected = ' ';
-                                    curVal = setupParams[subject][directory][variable].value;
-
-                                    if (curVal.toLowerCase().trim() === 'true') {
-                                        trueSelected = ' selected="selected" ';
+                                    if (parObj.parData[variable]) {
+                                      curVal = parObj.parData[variable].value;
                                     } else {
-                                        falseSelected = ' selected="selected" ';
+                                      curVal = setupParams[subject][directory][variable].value.trim();
+                                    }
+
+                                    if (typeof curVal === 'string' || curVal instanceof String) {
+                                        curVal = curVal.trim();
+                                        if (curVal.toLowerCase() === 'true') {
+                                            trueSelected = ' selected="selected" ';
+                                            falseSelected = ' ';
+                                        } else {
+                                            falseSelected = ' selected="selected" ';
+                                            trueSelected = ' ';
+                                        }
                                     }
 
                                     if (curVal === 'TRUE' || curVal === 'FALSE') {
-                                        curField = $('<select><option' + trueSelected + 'value="TRUE">TRUE</option>' +
-                                        ' <option' + falseSelected + 'value="FALSE">FALSE</option> </select>');
+                                        console.log(curVal, variable, 'CAPS');
+                                        curField = $('<select><option' + trueSelected + 'value="TRUE">.TRUE.</option>' +
+                                        ' <option' + falseSelected + 'value="FALSE">.FALSE.</option> </select>');
                                     } else if (curVal === 'true' || curVal === 'false'){
-                                        curField = $('<select> <option' + trueSelected + 'value="true">true</option>' +
-                                        ' <option' + falseSelected + 'value="false">false</option> </select>');
+                                        console.log(curVal, variable, 'Lower');
+                                        curField = $('<select> <option' + trueSelected + 'value="true">.true.</option>' +
+                                        ' <option' + falseSelected + 'value="false">.false.</option> </select>');
                                     } else {
-                                        curField = $('<input id=' + (subject + directory + variable).replace(/\//g, '') + ' type="text"> </input>');
+                                        console.log(curVal, variable, 'Input');
+                                        curField = $('<input id=' + (subject + directory + variable).replace(/\//g, '')
+                                        + ' type="text"> </input>');
                                     }
+
                                     curField.attr('name', variable);
 
                                     // Give each field a unique identifier related to their position in the file tree
                                     curField.attr('id', (subject + directory + variable).replace(/\//g, ''));
-                                    curField.val(setupParams[subject][directory][variable].value);
-                                    curLabel = $('<label id=' + (subject + directory + variable + '_label').replace(/\//g, '') + '> '  + variable + '<label>');
+                                    curField.val(curVal);
+                                    curLabel = $('<label id=' + (subject + directory + variable + '_label').replace(/\//g, '') +
+                                    '> '  + variable + '<label>');
                                     curLabel.click(function(){
                                         updateDescription(subject, directory, variable, setupParams);
                                     });
-                                    curLabel.attr('id', (subject + directory + variable + '_label').replace(/\//g, ''));
+                                    curLabel.attr('id', (subject + directory +
+                                      variable + '_label').replace(/\//g, ''));
                                     if (parObj.writeOrder.indexOf(variable) > -1) {
                                         curField.addClass('advanced_param');
                                         curField.addClass('advanced_inactive');
@@ -129,7 +147,6 @@ $(function() {
 
                                     config_form.append(curLabel);
                                     config_form.append(curField);
-
                             });
                         });
                     });
@@ -158,6 +175,10 @@ $(function() {
                                         if (parObj.writeOrder.indexOf(variable) === -1) {
                                             parObj.writeOrder.push(variable);
                                         }
+                                        parObj.parData[variable] = {'value': curSetupVal};
+                                    }
+
+                                    if (parObj.parData[variable] && parObj.parData[variable] !== curSetupVal) {
                                         parObj.parData[variable] = {'value': curSetupVal};
                                     }
                                 });
