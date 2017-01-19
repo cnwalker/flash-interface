@@ -138,11 +138,14 @@ $(function() {
                                     });
                                     curLabel.attr('id', (subject + directory +
                                       variable + '_label').replace(/\//g, ''));
-                                    if (parObj.writeOrder.indexOf(variable) > -1) {
+
+                                    var writeSet = new Set(parObj.writeOrder);
+                                    if (!writeSet.has(variable)) {
                                         curField.addClass('advanced_param');
                                         curField.addClass('advanced_inactive');
                                         curField.attr('style', 'display: none;');
                                         curLabel.addClass('advanced_inactive');
+                                        curLabel.attr('style', 'display: none;');
                                     }
 
                                     config_form.append(curLabel);
@@ -208,8 +211,10 @@ $(function() {
                                             cur_element.removeClass('advanced_inactive');
                                             if (!cur_element.hasClass('inactive')) {
                                                 cur_element.attr('style', '');
+                                                curLabel.attr('style', '');
                                             } else {
                                                 cur_element.attr('style', 'display: none;');
+                                                curLabel.attr('style', '');
                                             }
                                             curLabel.removeClass('advanced_inactive');
                                         } else {
@@ -217,6 +222,7 @@ $(function() {
                                             cur_element.addClass('advanced_inactive');
                                             cur_element.attr('style', 'display: none;');
                                             curLabel.addClass('advanced_inactive');
+                                            curLabel.attr('style', 'display: none;');
                                         }
                                     }
                                 });

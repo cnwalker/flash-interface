@@ -9,10 +9,13 @@ $(function() {
         settings_form = $('#settings_form');
 
     var passPath = function(event){
-        var writePath = $('#write_path_text').val();
+        var writePathText = $('#write_path_text').val();
 
         $('#' + this.id.replace('_file', '_text')).val(this.files[0].path);
-        if (this.id === 'read_path_file' && (!writePath.trim() || writePath === this.files[0].path)) {
+        console.log($('#' + this.id.replace('_file', '_text')));
+
+        if (this.id === 'read_path_file') {
+            //var readPathText = $('#read_path_text').val();
             $('#write_path_text').val(this.files[0].path);
         }
     };
