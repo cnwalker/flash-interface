@@ -214,7 +214,7 @@ $(function() {
                                                 curLabel.attr('style', '');
                                             } else {
                                                 cur_element.attr('style', 'display: none;');
-                                                curLabel.attr('style', '');
+                                                curLabel.attr('style', 'display: none');
                                             }
                                             curLabel.removeClass('advanced_inactive');
                                         } else {
