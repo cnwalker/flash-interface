@@ -1,6 +1,7 @@
 'use strict';
 
 const electron = require('electron');
+var Menu = electron.Menu;
 // Manages reading and writing of .par files and other data
 var file_manager = require('./js/file_manager');
 // Module to control application life.
@@ -12,20 +13,40 @@ const BrowserWindow = electron.BrowserWindow;
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
+
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 1125, height: 8375});
 
- file_manager.gatherPathFiles(__dirname + '/config.json', function(result) {
-      if (result.pathsAreMissing) {
-          mainWindow.loadURL('file://' + __dirname + '/settings.html');
-      } else {
-          mainWindow.loadURL('file://' + __dirname + '/edit_config.html');
-      }
-  });
+  file_manager.gatherPathFiles(__dirname + '/config.json', function(result) {
+       if (result.pathsAreMissing) {
+           mainWindow.loadURL('file://' + __dirname + '/settings.html');
+       } else {
+           mainWindow.loadURL('file://' + __dirname + '/edit_config.html');
+       }
+   });
 
-  // and load the index.html of the app.
-  mainWindow.loadURL('file://' + __dirname + '/edit_config.html');
+   var template = [{
+       label: "Application",
+       submenu: [
+           { label: "About Application", selector: "orderFrontStandardAboutPanel:" },
+           { type: "separator" },
+           { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
+       ]}, {
+           label: "Edit",
+           submenu: [
+               { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
+               { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
+               { type: "separator" },
+               { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
+               { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+               { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+               { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
+           ]}
+       ];
+
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {

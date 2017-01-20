@@ -25,7 +25,7 @@
   },
   "homepage": "http://flash.uchicago.edu/site/index.shtml",
   "devDependencies": {
-    "electron-packager": "^8.0.0",
+    "electron-packager": "^8.5.0",
     "electron-prebuilt": "^1.4.0",
     "spectron": "^3.4.0"
   },
