@@ -26,6 +26,7 @@ function createWindow () {
        }
    });
 
+   // Template from Marco Pracucci
    var template = [{
        label: "Application",
        submenu: [
