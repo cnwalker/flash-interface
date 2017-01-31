@@ -2,44 +2,8 @@
 
 /* global $ */
 
-var restrictToSubject = function (setupParams, referenceSubject) {
-    Object.keys(setupParams).forEach(function(subject) {
-        if (subject !== referenceSubject && referenceSubject !== 'All') {
-            $('#' + 'subject_' + subject).addClass('inactive');
-        } else {
-            $('#' + 'subject_' + subject).removeClass('inactive');
-        }
-        Object.keys(setupParams[subject]).forEach(function(directory) {
-            if (subject !== referenceSubject && referenceSubject !== 'All'){
-                $('#' + subject + '_' + directory.replace(/\//g, '')).addClass('inactive');
-            } else {
-                $('#' + subject + '_' + directory.replace(/\//g, '')).removeClass('inactive');
-            }
-            Object.keys(setupParams[subject][directory]).forEach(function(variable) {
-                if (subject !== referenceSubject && referenceSubject !== 'All') {
-                    $('#' + (subject + directory + variable).replace(/\//g, '')).addClass('inactive');
-                    $('#' + (subject + directory + variable).replace(/\//g, '')).attr('style', 'display: none;');
-                    $('#' + (subject + directory + variable + '_label').replace(/\//g, '')).addClass('inactive');
-                } else {
-                    $('#' + (subject + directory + variable).replace(/\//g, '')).removeClass('inactive');
-                    $('#' + (subject + directory + variable + '_label').replace(/\//g, '')).removeClass('inactive');
-                    $('#' + (subject + directory + variable).replace(/\//g, '')).attr('style', '');
-                }
-            });
-        });
-    });
-};
-
-var updateDescription = function(subject, directory, variable, setupParams) {
-    var active_variable_name = $('#active_variable_name');
-    var active_variable_description = $('#active_variable_description');
-    var error_msg = 'No description avaliable';
-
-    active_variable_name.text(variable);
-    active_variable_description.text(setupParams[subject][directory][variable].description || error_msg);
-};
-
 var file_manager = require('./js/file_manager');
+var utils = require('./js/utils');
 
 $(function() {
     var subject_zone = $('#subject_zone');
@@ -64,6 +28,7 @@ $(function() {
                 var curVal;
                 var trueSelected;
                 var falseSelected;
+                var directorySelector;
 
                 // Get parData to determine which params are advanced and which aren't
                 file_manager.readParData(paths.READ_PATH, function(parObj) {
@@ -71,7 +36,7 @@ $(function() {
                     subject_zone.append('<li class="divider"></li>');
 
                     $('#all_button').click(function() {
-                        restrictToSubject(setupParams, 'All');
+                        utils.restrictTo(setupParams, {});
                         advanced_button.click();
                         advanced_button.click();
                     });
@@ -83,13 +48,33 @@ $(function() {
                         subject.slice(1) + '</a></li>'));
                         subject_zone.append('<li class="divider"></li>');
                         $('#' + subject + '_button').click(function() {
-                            restrictToSubject(setupParams, subject);
+                            utils.restrictTo(setupParams, {'subject': subject});
                             advanced_button.click();
                             advanced_button.click();
                         });
                         config_form.append($('<h2 id="subject_' + subject + '">' +
                         subject.charAt(0).toUpperCase() + subject.slice(1) + '</h2>'));
+
+                        directorySelector = $('<select id=' + subject.toLowerCase() + '_directory_selector> </select>');
+
+                        directorySelector.change(function() {
+                            utils.restrictTo(setupParams, {
+                                'subject': subject,
+                                'directory': $(this).val()
+                            });
+                            advanced_button.click();
+                            advanced_button.click();
+                            $(this).removeClass('inactive');
+                            $('#subject_' + subject).removeClass('inactive');
+                        });
+
+                        config_form.append(directorySelector);
+
                         Object.keys(setupParams[subject]).forEach(function(directory) {
+                            if (directory.trim()) {
+                                $('#' + subject.toLowerCase() + '_directory_selector').append($('<option> ' + directory + ' </option>'));
+                            }
+
                             // Display all the directories
                             config_form.append($('<h4 id=' + subject + '_' +
                             directory.replace(/\//g, '') + '>' + directory + '</h4>'));
@@ -113,15 +98,12 @@ $(function() {
                                     }
 
                                     if (curVal === 'TRUE' || curVal === 'FALSE') {
-                                        console.log(curVal, variable, 'CAPS');
                                         curField = $('<select><option' + trueSelected + 'value="TRUE">.TRUE.</option>' +
                                         ' <option' + falseSelected + 'value="FALSE">.FALSE.</option> </select>');
                                     } else if (curVal === 'true' || curVal === 'false'){
-                                        console.log(curVal, variable, 'Lower');
                                         curField = $('<select> <option' + trueSelected + 'value="true">.true.</option>' +
                                         ' <option' + falseSelected + 'value="false">.false.</option> </select>');
                                     } else {
-                                        console.log(curVal, variable, 'Input');
                                         curField = $('<input id=' + (subject + directory + variable).replace(/\//g, '')
                                         + ' type="text"> </input>');
                                     }
@@ -134,7 +116,7 @@ $(function() {
                                     curLabel = $('<label id=' + (subject + directory + variable + '_label').replace(/\//g, '') +
                                     '> '  + variable + '<label>');
                                     curLabel.click(function(){
-                                        updateDescription(subject, directory, variable, setupParams);
+                                        utils.updateDescription(subject, directory, variable, setupParams);
                                     });
                                     curLabel.attr('id', (subject + directory +
                                       variable + '_label').replace(/\//g, ''));
@@ -151,6 +133,7 @@ $(function() {
                                     config_form.append(curLabel);
                                     config_form.append(curField);
                             });
+                            utils.checkChildrenAndDisplayDirectory(subject, directory);
                         });
                     });
 
@@ -226,6 +209,7 @@ $(function() {
                                         }
                                     }
                                 });
+                                utils.checkChildrenAndDisplayDirectory(subject, directory);
                             });
                         });
 
