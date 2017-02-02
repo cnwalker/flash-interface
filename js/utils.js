@@ -99,8 +99,31 @@ var updateDescription = function(subject, directory, variable, setupParams) {
     active_variable_description.text(setupParams[subject][directory][variable].description || error_msg);
 };
 
+var removeChildren = function(elementID) {
+    var results_zone = document.getElementById(elementID);
+
+    while (results_zone.firstChild) {
+        results_zone.removeChild(results_zone.firstChild);
+    }
+};
+
+var searchVariables = function(searchTerm, resultsID) {
+    if (searchTerm.trim().length) {
+        var hits = $('[name^="' + searchTerm.trim() + '" i]');
+
+        removeChildren(resultsID);
+
+        for (var i = 0; i < hits.length; i++) {
+            $('#' + resultsID).append($('<p> ' + $(hits[i]).attr('name') + ' </p>'));
+        }
+    } else {
+        removeChildren(resultsID);
+    }
+};
+
 module.exports = {
     restrictTo: restrictTo,
     updateDescription: updateDescription,
-    checkChildrenAndDisplayDirectory: checkChildrenAndDisplayDirectory
+    checkChildrenAndDisplayDirectory: checkChildrenAndDisplayDirectory,
+    searchVariables: searchVariables
 }

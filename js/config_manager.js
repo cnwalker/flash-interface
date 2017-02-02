@@ -11,6 +11,11 @@ $(function() {
     var config_form = $('#config_form');
     var action_zone = $('#action_zone');
 
+    $('#searchbox').keyup(function() {
+        console.log('lol');
+        utils.searchVariables($(this).val(), 'results_zone');
+    });
+
     file_manager.gatherPathFiles(__dirname + '/config.json', function(result) {
         if (result.pathsAreMissing) {
             alert('Some config paths are missing. You must pick which files to read and write from.');
@@ -32,15 +37,6 @@ $(function() {
 
                 // Get parData to determine which params are advanced and which aren't
                 file_manager.readParData(paths.READ_PATH, function(parObj) {
-                    subject_zone.append($('<li><a id="all_button" href="#">All</a></li>'));
-                    subject_zone.append('<li class="divider"></li>');
-
-                    $('#all_button').click(function() {
-                        utils.restrictTo(setupParams, {});
-                        advanced_button.click();
-                        advanced_button.click();
-                    });
-
                     Object.keys(setupParams).forEach(function(subject) {
                         // Display all the broad subject-areas
                         subject_zone.append($('<li><a id=' + subject + '_button '
@@ -55,7 +51,8 @@ $(function() {
                         config_form.append($('<h2 id="subject_' + subject + '">' +
                         subject.charAt(0).toUpperCase() + subject.slice(1) + '</h2>'));
 
-                        directorySelector = $('<select id=' + subject.toLowerCase() + '_directory_selector> </select>');
+                        directorySelector = $('<select required id=' + subject.toLowerCase() + '_directory_selector> </select>');
+                        directorySelector.append($('<option value="" disabled selected>Select directory</option>'));
 
                         directorySelector.change(function() {
                             utils.restrictTo(setupParams, {
@@ -137,9 +134,18 @@ $(function() {
                         });
                     });
 
-                    // Add settings section
+                    // Add all button and settings section
+                    subject_zone.append($('<li><a id="all_button" href="#">All</a></li>'));
+                    subject_zone.append($('<li class="divider"></li>'));
+
                     var settings_section = $('<li><a href="./settings.html">Settings</a></li>');
                     subject_zone.append(settings_section);
+
+                    $('#all_button').click(function() {
+                        utils.restrictTo(setupParams, {});
+                        advanced_button.click();
+                        advanced_button.click();
+                    });
 
                     // Write parameters button
                     write_button = $('<div class="button radius expand">Write parameters</div>');
