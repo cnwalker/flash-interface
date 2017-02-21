@@ -27,7 +27,7 @@ function createWindow () {
    });
 
    // Template from Marco Pracucci
-   /* var template = [{
+   var template = [{
        label: "Application",
        submenu: [
            { label: "About Application", selector: "orderFrontStandardAboutPanel:" },
@@ -46,7 +46,7 @@ function createWindow () {
            ]}
        ];
 
-  Menu.setApplicationMenu(Menu.buildFromTemplate(template)); */
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 
 
   // Emitted when the window is closed.
