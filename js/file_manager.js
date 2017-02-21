@@ -43,7 +43,7 @@ var gatherPathFiles = function(filepath, callback) {
 var writePathFiles = function(filepath, data, callback) {
     fs.writeFile(filepath, JSON.stringify(data, null, 4), function(err) {
         if (!err) {
-            console.log('Wrote data to ' + filepath);
+            callback();
         } else {
             console.log(err);
             alert('Problem writing paths to config file. Consult the log for errors');
@@ -51,8 +51,18 @@ var writePathFiles = function(filepath, data, callback) {
     });
 };
 
+var checkExists = function(filepath_obj, failureCallback) {
+    fs.access(filepath, function(err) {
+        if (!err) {
+            successCallback();
+        } else {
+            failureCallback();
+        }
+    });
+}
+
 // Reads in .par file and returns parData dictionary
-var readParData = function(filepath, callback) {
+var readParData = function(filepath, failureCallback, callback) {
     var parData = {};
     var writeOrder = [];
 
@@ -60,35 +70,36 @@ var readParData = function(filepath, callback) {
         var lineList, currentParameter, valAndComment;
 
         if (err) {
-            return console.error(err);
+            console.error(err);
+            failureCallback();
+        } else {
+            data.toString().split('\n').forEach(function(line) {
+                // If it's not a comment or a space, it's a parameter and needs to be processed
+                if (line[0] !== '#' && line.trim()) {
+                     // Split based on = character to differentiate parameter and value
+                     lineList = line.split('=');
+                     currentParameter = lineList[0];
+                     // Value is in index 0, comment (if one exists) is in index[1]
+                     valAndComment = lineList[1].split('#');
+                     // Create an object so that value and comment can be retrieved easily
+                     parData[currentParameter.trim()] = {'value': valAndComment[0]};
+                     // Adding the comment to the data entry
+                     if (valAndComment[1]) {
+                         parData[currentParameter.trim()].comment = '#' + valAndComment[1];
+                     }
+                     // Add the parameter to the write order
+                     writeOrder.push(currentParameter.trim());
+                } else {
+                    // If it is a comment or an empty space, add it to the writeOrder
+                    writeOrder.push(line + '\n');
+                }
+            });
+
+            callback({
+                'parData': parData,
+                'writeOrder': writeOrder
+            });
         }
-
-        data.toString().split('\n').forEach(function(line) {
-            // If it's not a comment or a space, it's a parameter and needs to be processed
-            if (line[0] !== '#' && line.trim()) {
-                 // Split based on = character to differentiate parameter and value
-                 lineList = line.split('=');
-                 currentParameter = lineList[0];
-                 // Value is in index 0, comment (if one exists) is in index[1]
-                 valAndComment = lineList[1].split('#');
-                 // Create an object so that value and comment can be retrieved easily
-                 parData[currentParameter.trim()] = {'value': valAndComment[0]};
-                 // Adding the comment to the data entry
-                 if (valAndComment[1]) {
-                     parData[currentParameter.trim()].comment = '#' + valAndComment[1];
-                 }
-                 // Add the parameter to the write order
-                 writeOrder.push(currentParameter.trim());
-            } else {
-                // If it is a comment or an empty space, add it to the writeOrder
-                writeOrder.push(line + '\n');
-            }
-        });
-
-        callback({
-            'parData': parData,
-            'writeOrder': writeOrder
-        });
     });
 };
 
@@ -146,7 +157,9 @@ var collectSetupParams = function(filepath, callback) {
                     };
 
                     if (lineList.length > 3) {
-                        setupParams[curSubject][curDir][curVar].flags = lineList.slice(2, lineList.length - 1).join(',');
+                        setupParams[curSubject][curDir][curVar].flags = (
+                            lineList.slice(2, lineList.length - 1).join(',')
+                        );
                     }
                     break;
                 case 8:
@@ -171,5 +184,6 @@ module.exports = {
     writeParData: writeParData,
     gatherPathFiles: gatherPathFiles,
     writePathFiles: writePathFiles,
-    collectSetupParams: collectSetupParams
+    collectSetupParams: collectSetupParams,
+    checkExists: checkExists
 };

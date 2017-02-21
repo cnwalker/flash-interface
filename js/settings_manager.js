@@ -6,17 +6,24 @@ var file_manager = require('./js/file_manager');
 
 $(function() {
     var display_zone = $('.display_zone'),
-        settings_form = $('#settings_form');
+        settings_form = $('#settings_form'),
+
+        read_path_file = $('#read_path_file'),
+        write_path_file = $('#write_path_file'),
+        setup_path_file = $('#setup_path_file'),
+
+        read_path_text_field = $('#read_path_text'),
+        write_path_text_field = $('#write_path_text'),
+        setup_path_text_field = $('#setup_path_text');
 
     var passPath = function(event){
-        var writePathText = $('#write_path_text').val();
+        var writePathText = write_path_text_field.val();
 
         $('#' + this.id.replace('_file', '_text')).val(this.files[0].path);
         console.log($('#' + this.id.replace('_file', '_text')));
-
+        $(this).removeClass('filepath_changed');
         if (this.id === 'read_path_file') {
-            //var readPathText = $('#read_path_text').val();
-            $('#write_path_text').val(this.files[0].path);
+            write_path_text_field.val(this.files[0].path);
         }
     };
 
@@ -43,8 +50,13 @@ $(function() {
             for (var j = 0; j < all_keys.length; ++j) {
                 result.data[all_keys[j]] = $('#' + all_keys[j].toLowerCase() + '_text').val();
             }
-            alert('Files written successfully');
-            file_manager.writePathFiles(__dirname + '/config.json', result.data);
+
+            file_manager.writePathFiles(__dirname + '/config.json', result.data, function() {
+                alert('Settings saved successfully!');
+            });
+
         });
     });
+
+
 });

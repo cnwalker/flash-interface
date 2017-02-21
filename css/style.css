@@ -25,3 +25,11 @@
 .l-mar-right-small {
     margin-right: 9px;
 }
+
+.search_match {
+    background-color: skyblue;
+}
+
+.hide_filename {
+    color:transparent;
+}

@@ -11,11 +11,6 @@ $(function() {
     var config_form = $('#config_form');
     var action_zone = $('#action_zone');
 
-    $('#searchbox').keyup(function() {
-        console.log('lol');
-        utils.searchVariables($(this).val(), 'results_zone');
-    });
-
     file_manager.gatherPathFiles(__dirname + '/config.json', function(result) {
         if (result.pathsAreMissing) {
             alert('Some config paths are missing. You must pick which files to read and write from.');
@@ -34,9 +29,20 @@ $(function() {
                 var trueSelected;
                 var falseSelected;
                 var directorySelector;
+                var allSubjects;
+
+                $('#searchbox').keyup(function() {
+                    utils.searchVariables(setupParams, $(this).val(), 'results_zone');
+                });
 
                 // Get parData to determine which params are advanced and which aren't
-                file_manager.readParData(paths.READ_PATH, function(parObj) {
+                file_manager.readParData(paths.READ_PATH, function() {
+
+                    alert('There was an error reading some of the config files.\n' +
+                    'Please make sure the files in parameter path and setup path exist');
+                    $('#go-to-settings')[0].click();
+                },
+                function(parObj) {
                     Object.keys(setupParams).forEach(function(subject) {
                         // Display all the broad subject-areas
                         subject_zone.append($('<li><a id=' + subject + '_button '
@@ -65,9 +71,13 @@ $(function() {
                             $('#subject_' + subject).removeClass('inactive');
                         });
 
-                        config_form.append(directorySelector);
+                        allSubjects = Object.keys(setupParams[subject]);
 
-                        Object.keys(setupParams[subject]).forEach(function(directory) {
+                        if (allSubjects.length > 1) {
+                            config_form.append(directorySelector);
+                        }
+
+                        allSubjects.forEach(function(directory) {
                             if (directory.trim()) {
                                 $('#' + subject.toLowerCase() + '_directory_selector').append($('<option> ' + directory + ' </option>'));
                             }
@@ -109,6 +119,8 @@ $(function() {
 
                                     // Give each field a unique identifier related to their position in the file tree
                                     curField.attr('id', (subject + directory + variable).replace(/\//g, ''));
+                                    curField.attr('subject', subject);
+                                    curField.attr('directory', directory);
                                     curField.val(curVal);
                                     curLabel = $('<label id=' + (subject + directory + variable + '_label').replace(/\//g, '') +
                                     '> '  + variable + '<label>');
@@ -182,8 +194,8 @@ $(function() {
                         });
                     });
 
-                    // Hide/Show advanced parameters button
-                    advanced_button = $('<div class="button radius expand">Show advanced parameters</div>');
+                    // Hide/Show all FLASH parameters button
+                    advanced_button = $('<div id="advanced_button" class="button radius expand">Show all FLASH parameters</div>');
                     advanced_button.click(function(event) {
                         var nextState = 'show';
 
@@ -195,7 +207,7 @@ $(function() {
                                     curLabel = $('#' + (subject + directory + variable + '_label').replace(/\//g, ''));
 
                                     if (cur_element.hasClass('advanced_param')) {
-                                        if (advanced_button.text() === 'Show advanced parameters') {
+                                        if (advanced_button.text() === 'Show all FLASH parameters') {
                                             nextState = 'hide';
                                             cur_element.removeClass('advanced_inactive');
                                             if (!cur_element.hasClass('inactive')) {
@@ -220,9 +232,9 @@ $(function() {
                         });
 
                         if (nextState === 'hide') {
-                            advanced_button.text('Hide advanced parameters');
+                            advanced_button.text('Restrict to existing parameters');
                         } else {
-                            advanced_button.text('Show advanced parameters');
+                            advanced_button.text('Show all FLASH parameters');
                         }
                     });
                     action_zone.append(advanced_button);

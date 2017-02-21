@@ -107,14 +107,62 @@ var removeChildren = function(elementID) {
     }
 };
 
-var searchVariables = function(searchTerm, resultsID) {
+var searchVariables = function(setupParams, searchTerm, resultsID) {
     if (searchTerm.trim().length) {
         var hits = $('[name^="' + searchTerm.trim() + '" i]');
 
         removeChildren(resultsID);
 
         for (var i = 0; i < hits.length; i++) {
-            $('#' + resultsID).append($('<p> ' + $(hits[i]).attr('name') + ' </p>'));
+            var result = $('<p> ' + $(hits[i]).attr('name') + ' (' + $(hits[i]).attr('directory') + ')' + '</p>');
+            result.attr('subject', $(hits[i]).attr('subject'));
+            result.attr('directory', $(hits[i]).attr('directory'));
+            result.attr('hitId', $(hits[i]).attr('id'));
+            result.attr('advancedAndHidden', $(hits[i]).hasClass('advanced_inactive'));
+
+            result.click(function() {
+                var isHidden =  $(this).attr('advancedAndHidden') === 'true';
+
+                if (isHidden && ($('#advanced_button').text().trim() === 'Show all FLASH parameters')) {
+                    alert('This variable is currently hidden. ' +
+                    'Click "Show all FLASH parameters" on the right hand' +
+                    'side of the screen to make it searchable');
+                } else {
+                    restrictTo(setupParams, {
+                        'subject': $(this).attr('subject'),
+                        'directory': $(this).attr('directory')
+                    });
+
+                    $('#advanced_button').click();
+                    $('#advanced_button').click();
+
+                    var classesAdded = false;
+                    var maxIterations = 12;
+                    var iterations = 0;
+                    var hitLabel = $('#' + $(this).attr('hitId') + '_label');
+
+                    $('html, body').animate({
+                        scrollTop: hitLabel.offset().top - 82
+                    }, 700);
+
+                    var searchMatchInterval = setInterval(function(){
+                        iterations += 1
+                        if (!classesAdded) {
+                            hitLabel.addClass('search_match');
+                            classesAdded = true;
+                        } else {
+                            hitLabel.removeClass('search_match');
+                            classesAdded = false;
+                        }
+
+                        if (iterations === maxIterations) {
+                            clearInterval(searchMatchInterval);
+                            hitLabel.removeClass('search_match');
+                        }
+                    }, 100);
+                }
+            });
+            $('#' + resultsID).append(result);
         }
     } else {
         removeChildren(resultsID);

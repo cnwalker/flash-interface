@@ -50,26 +50,26 @@
         </div>
 
         <div class="row">
-            <div class="display_zone small-8 large-8 columns">
+            <div class="display_zone small-11 large-11 columns">
                 <div id="settings_form">
                     <div class="row">
                         <h3 id="read_path_label">Parameter File</h3>
                         <p class="subheader">The flash.par file you would like to read from.</p>
-                        <input id="read_path_file" type="file"> </input>
+                        <input id="read_path_file" class="hide_filename" type="file"> </input>
                         <input id="read_path_text" type="text"> </input>
                     </div>
 
                     <div class="row">
                         <h3 id="write_path_label" class="l-mar-top">Write File</h3>
                         <p class="subheader">The flash.par file you would like to write to. Usually the same as the read file.</p>
-                        <input id="write_path_file" type="file"> </input>
+                        <input id="write_path_file" class="hide_filename" type="file"> </input>
                         <input id="write_path_text" type="text"> </input>
                     </div>
 
                     <div class="row">
                         <h3 id="setup_path_label" class="l-mar-top">Setup File</h3>
                         <p class="subheader">The setup file to get your default variable configurations. Usually called setup_params in the object directory.</p>
-                        <input id="setup_path_file" type="file"> </input>
+                        <input id="setup_path_file" class="hide_filename" type="file"> </input>
                         <input id="setup_path_text" type="text"> </input>
                     </div>
                 </div>
