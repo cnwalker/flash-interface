@@ -37,9 +37,9 @@ $(function() {
 
                 // Get parData to determine which params are advanced and which aren't
                 file_manager.readParData(paths.READ_PATH, function() {
-
                     alert('There was an error reading some of the config files.\n' +
-                    'Please make sure the files in parameter path and setup path exist');
+                    'Please make sure the files in parameter path and setup path exist' +
+                    'and are properly formatted');
                     $('#go-to-settings')[0].click();
                 },
                 function(parObj) {

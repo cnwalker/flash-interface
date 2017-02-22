@@ -126,7 +126,7 @@ var searchVariables = function(setupParams, searchTerm, resultsID) {
                 if (isHidden && ($('#advanced_button').text().trim() === 'Show all FLASH parameters')) {
                     alert('This variable is currently hidden. ' +
                     'Click "Show all FLASH parameters" on the right hand' +
-                    'side of the screen to make it searchable');
+                    ' side of the screen to make it searchable');
                 } else {
                     restrictTo(setupParams, {
                         'subject': $(this).attr('subject'),
