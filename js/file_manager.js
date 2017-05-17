@@ -88,6 +88,7 @@ var readParData = function(filepath, failureCallback, callback) {
                          if (valAndComment[1]) {
                              parData[currentParameter.trim()].comment = '#' + valAndComment[1];
                          }
+
                          // Add the parameter to the write order
                          writeOrder.push(currentParameter.trim());
                     } else {

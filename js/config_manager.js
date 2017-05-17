@@ -38,7 +38,7 @@ $(function() {
                 // Get parData to determine which params are advanced and which aren't
                 file_manager.readParData(paths.READ_PATH, function() {
                     alert('There was an error reading some of the config files.\n' +
-                    'Please make sure the files in parameter path and setup path exist' +
+                    'Please make sure the files in parameter path and setup path exist ' +
                     'and are properly formatted');
                     $('#go-to-settings')[0].click();
                 },
@@ -46,8 +46,7 @@ $(function() {
                     Object.keys(setupParams).forEach(function(subject) {
                         // Display all the broad subject-areas
                         subject_zone.append($('<li><a id=' + subject + '_button '
-                        + 'href="#">' + subject.charAt(0).toUpperCase() +
-                        subject.slice(1) + '</a></li>'));
+                        + 'href="#">' + subject + '</a></li>'));
                         subject_zone.append('<li class="divider"></li>');
                         $('#' + subject + '_button').click(function() {
                             utils.restrictTo(setupParams, {'subject': subject});
@@ -147,10 +146,10 @@ $(function() {
                     });
 
                     // Add all button and settings section
-                    subject_zone.append($('<li><a id="all_button" href="#">All</a></li>'));
+                    subject_zone.append($('<li><a id="all_button" href="#">all</a></li>'));
                     subject_zone.append($('<li class="divider"></li>'));
 
-                    var settings_section = $('<li><a href="./settings.html">Settings</a></li>');
+                    var settings_section = $('<li><a href="./settings.html">settings</a></li>');
                     subject_zone.append(settings_section);
 
                     $('#all_button').click(function() {
